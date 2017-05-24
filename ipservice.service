@@ -1,0 +1,7 @@
+Description=IP Service
+
+[Service]
+ExecStart=/usr/local/bin/ip-service -listen :8000 -log /dev/null
+
+[Install]
+WantedBy=multi-user.target
