@@ -27,5 +27,5 @@ func main() {
 		fmt.Fprintf(w, r.RemoteAddr)
 		log.Printf("Request from %s", r.RemoteAddr)
 	})
-	http.ListenAndServe(*listenaddr, nil)
+	log.Fatal(http.ListenAndServe(*listenaddr, nil))
 }
