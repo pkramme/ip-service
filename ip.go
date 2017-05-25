@@ -13,15 +13,18 @@ func main() {
 	loglocation := flag.String("log", "./ipservice.log", "Location of the logfile")
 	flag.Parse()
 
-	f, err := os.OpenFile(*loglocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
+	var f *os.File
+	var err error
+	if *loglocation != "disabled" {
+		f, err = os.OpenFile(*loglocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+		log.SetOutput(f)
+		log.Println("IP Service Started")
 	}
-	defer f.Close()
-	log.SetOutput(f)
-
 	fmt.Println("IP Service Started")
-	log.Println("IP Service Started")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, r.RemoteAddr)
